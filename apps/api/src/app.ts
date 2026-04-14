@@ -1,22 +1,22 @@
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
-import morgan from "morgan";
+import cors from 'cors';
+import express from 'express';
+import helmet from 'helmet';
+import morgan from 'morgan';
 
 const app = express();
 
 app.use(helmet());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(
   cors({
-    origin: process.env.CLIENT_URL ?? "http://localhost:5173",
+    origin: process.env.CLIENT_URL ?? 'http://localhost:5173',
     credentials: true,
-  }),
+  })
 );
 app.use(express.json());
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", timestamp: new Date().toISOString() });
+app.get('/health', (_req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 export default app;

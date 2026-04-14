@@ -7,9 +7,13 @@
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev -w apps/api\" \"npm run dev -w apps/web\"",
-    "build": "npm run build -w apps/api && npm run build -w apps/web"
+    "build": "npm run build -w apps/api && npm run build -w apps/web",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "check": "biome check --write ."
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.11",
     "concurrently": "^8.2.2"
   }
 }
