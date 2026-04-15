@@ -1,5 +1,17 @@
 <script lang="ts">
-	let { data } = $props();	
+	let { data } = $props();
+	let searchQuery = $state('');
+
+	const filteredColumns = $derived(() => {
+		if (!data.activeBoard) return [];
+
+		return data.activeBoard.columns.map((col) => ({
+			...col,
+			tickets: col.tickets.filter((ticket) =>
+				!searchQuery || ticket.title?.toLowerCase().includes(searchQuery.toLowerCase()) || ticket.description?.toLowerCase().includes(searchQuery.toLowerCase())
+			),
+		})) || [];
+	});
 
 	const priorityConfig = {
 		LOW: { label: 'Low', class: 'bg-slate-100 text-slate-600' },
@@ -157,6 +169,7 @@
 					</svg>
 					<input
 						type="search"
+						bind:value={searchQuery}
 						placeholder="Search tickets..."
 						class="pl-8 pr-4 py-1.5 text-sm bg-slate-50 border border-slate-200 rounded-lg w-48
 						       focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-colors"
@@ -176,7 +189,7 @@
 		<div class="flex-1 overflow-x-auto overflow-y-hidden">
 			{#if data.activeBoard && data.activeBoard.columns.length > 0}
 				<div class="flex gap-4 h-full p-5 w-max">
-					{#each data.activeBoard.columns as col, i}
+					{#each filteredColumns() as col, i}
 						{@const accent = columnAccents[i % columnAccents.length]}
 						<div class="w-72 flex-shrink-0 flex flex-col max-h-full">
 							<div class="flex items-center justify-between mb-3 px-0.5">
