@@ -2,7 +2,6 @@ import { createId } from '@paralleldrive/cuid2';
 import { relations } from 'drizzle-orm';
 import { integer, pgEnum, pgTable, text, timestamp, unique } from 'drizzle-orm/pg-core';
 
-// Enums
 export const memberRoleEnum = pgEnum('member_role', ['OWNER', 'ADMIN', 'MEMBER']);
 export const priorityEnum = pgEnum('priority', ['LOW', 'MEDIUM', 'HIGH', 'URGENT']);
 export const ticketStatusEnum = pgEnum('ticket_status', [
@@ -12,7 +11,6 @@ export const ticketStatusEnum = pgEnum('ticket_status', [
   'DONE',
 ]);
 
-// Tables
 export const users = pgTable('users', {
   id: text('id')
     .primaryKey()
@@ -110,7 +108,6 @@ export const tickets = pgTable('tickets', {
     .$onUpdate(() => new Date()),
 });
 
-// Relations
 export const usersRelations = relations(users, ({ many }) => ({
   projects: many(projectMembers),
   assignedTickets: many(tickets),

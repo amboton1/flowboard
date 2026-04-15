@@ -1,16 +1,16 @@
-import { env } from '$env/dynamic/private';
-import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle';
-import { GitHub } from 'arctic';
-import { Lucia } from 'lucia';
-import { db } from './db';
-import { sessions, users } from './db/schema';
+import { env } from "$env/dynamic/private";
+import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
+import { GitHub } from "arctic";
+import { Lucia } from "lucia";
+import { db } from "./db";
+import { sessions, users } from "./db/schema";
 
 const adapter = new DrizzlePostgreSQLAdapter(db, sessions, users);
 
 export const lucia = new Lucia(adapter, {
   sessionCookie: {
     attributes: {
-      secure: process.env.NODE_ENV === 'production',
+      secure: import.meta.env.PROD,
     },
   },
   getUserAttributes: (attributes) => {
@@ -23,9 +23,13 @@ export const lucia = new Lucia(adapter, {
   },
 });
 
-export const github = new GitHub(env.GITHUB_CLIENT_ID, env.GITHUB_CLIENT_SECRET, null);
+export const github = new GitHub(
+  env.GITHUB_CLIENT_ID,
+  env.GITHUB_CLIENT_SECRET,
+  null,
+);
 
-declare module 'lucia' {
+declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
     DatabaseUserAttributes: DatabaseUserAttributes;

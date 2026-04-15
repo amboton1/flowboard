@@ -10,8 +10,7 @@ A Kanban-style project management app — think a lightweight Trello or Linear. 
 
 | Layer | Technology |
 |---|---|
-| Frontend | [SvelteKit 5](https://kit.svelte.dev) + TypeScript |
-| Backend | [Express 5](https://expressjs.com) + TypeScript |
+| Framework | [SvelteKit 5](https://kit.svelte.dev) + TypeScript |
 | Database | [PostgreSQL 16](https://www.postgresql.org) (via Docker) |
 | ORM | [Drizzle ORM](https://orm.drizzle.team) |
 | Auth | GitHub OAuth |
@@ -24,8 +23,7 @@ A Kanban-style project management app — think a lightweight Trello or Linear. 
 ```
 flowboard/
 ├── apps/
-│   ├── web/          # SvelteKit frontend
-│   └── api/          # Express backend
+│   └── web/          # SvelteKit app (frontend + API routes)
 ├── docker-compose.yml
 └── package.json
 ```
@@ -73,12 +71,11 @@ From the root:
 npm run dev
 ```
 
-This runs both the SvelteKit frontend and the Express API concurrently.
+This starts the SvelteKit dev server.
 
 | Server | URL |
 |---|---|
-| Frontend | http://localhost:5173 |
-| API | http://localhost:3000 |
+| App | http://localhost:5173 |
 
 ---
 

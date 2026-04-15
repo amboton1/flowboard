@@ -9,7 +9,7 @@ export const GET: RequestHandler = async ({ cookies }) => {
 
   cookies.set('github_oauth_state', state, {
     path: '/',
-    secure: process.env.NODE_ENV === 'production',
+    secure: import.meta.env.PROD,
     httpOnly: true,
     maxAge: 60 * 10,
     sameSite: 'lax',

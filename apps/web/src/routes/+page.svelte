@@ -1,21 +1,40 @@
-<script lang="ts">
-let { data } = $props();
-</script>
-
-<main>
-  {#if data.user}
-    <img src={data.user.avatarUrl ?? ''} alt={data.user.username} />
-    <p>Signed in as <strong>{data.user.username}</strong></p>
-    <form method="POST" action="/logout">
-      <button type="submit">Sign out</button>
-    </form>
-  {:else}
-    <h1>Welcome to Flowboard</h1>
-    <a href="/login/github">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-      </svg>
-      Sign in with GitHub
-    </a>
-  {/if}
+<main class="flex items-center justify-center min-h-screen bg-slate-50">
+	<div class="text-center">
+		<div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-5">
+			<svg
+				class="w-6 h-6 text-white"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2.5"
+				viewBox="0 0 24 24"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"
+				/>
+			</svg>
+		</div>
+		<h1 class="text-2xl font-bold text-slate-900 mb-1">Flowboard</h1>
+		<p class="text-slate-400 text-sm mb-7">Project management for teams that move fast.</p>
+		<a
+			href="/login/github"
+			class="inline-flex items-center gap-2.5 bg-slate-900 hover:bg-slate-800 text-white
+			       text-sm font-medium px-5 py-2.5 rounded-lg transition-colors"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="18"
+				height="18"
+				viewBox="0 0 24 24"
+				fill="currentColor"
+				aria-hidden="true"
+			>
+				<path
+					d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+				/>
+			</svg>
+			Sign in with GitHub
+		</a>
+	</div>
 </main>

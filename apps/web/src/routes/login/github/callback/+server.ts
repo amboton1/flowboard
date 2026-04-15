@@ -1,10 +1,10 @@
-import { github, lucia } from '$lib/server/auth';
-import { db } from '$lib/server/db';
-import { users } from '$lib/server/db/schema';
-import { OAuth2RequestError } from 'arctic';
-import { eq } from 'drizzle-orm';
-import { redirect } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
+import { github, lucia } from "$lib/server/auth";
+import { db } from "$lib/server/db";
+import { users } from "$lib/server/db/schema";
+import { OAuth2RequestError } from "arctic";
+import { eq } from "drizzle-orm";
+import { redirect } from "@sveltejs/kit";
+import type { RequestHandler } from "./$types";
 
 interface GitHubUser {
   id: number;
@@ -20,26 +20,26 @@ interface GitHubEmail {
 }
 
 export const GET: RequestHandler = async ({ url, cookies }) => {
-  const code = url.searchParams.get('code');
-  const state = url.searchParams.get('state');
-  const storedState = cookies.get('github_oauth_state');
+  const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
+  const storedState = cookies.get("github_oauth_state");
 
   if (!code || !state || !storedState || state !== storedState) {
-    return new Response('Invalid OAuth state', { status: 400 });
+    return new Response("Invalid OAuth state", { status: 400 });
   }
 
   try {
     const tokens = await github.validateAuthorizationCode(code);
     const accessToken = tokens.accessToken();
 
-    const githubUserResponse = await fetch('https://api.github.com/user', {
+    const githubUserResponse = await fetch("https://api.github.com/user", {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     const githubUser: GitHubUser = await githubUserResponse.json();
 
     let email = githubUser.email;
     if (!email) {
-      const emailsResponse = await fetch('https://api.github.com/user/emails', {
+      const emailsResponse = await fetch("https://api.github.com/user/emails", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const emails: GitHubEmail[] = await emailsResponse.json();
@@ -67,16 +67,16 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
     cookies.set(sessionCookie.name, sessionCookie.value, {
-      path: '.',
+      path: ".",
       ...sessionCookie.attributes,
     });
   } catch (e) {
     if (e instanceof OAuth2RequestError) {
-      return new Response('OAuth error', { status: 400 });
+      return new Response("OAuth error", { status: 400 });
     }
     console.error(e);
-    return new Response('Internal server error', { status: 500 });
+    return new Response("Internal server error", { status: 500 });
   }
 
-  return redirect(302, '/');
+  return redirect(302, "/dashboard");
 };
