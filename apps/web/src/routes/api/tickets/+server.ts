@@ -10,7 +10,11 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   const columnId = url.searchParams.get('columnId');
 
   const result = columnId
-    ? await db.select().from(tickets).where(eq(tickets.columnId, columnId)).orderBy(tickets.position)
+    ? await db
+        .select()
+        .from(tickets)
+        .where(eq(tickets.columnId, columnId))
+        .orderBy(tickets.position)
     : await db.select().from(tickets).orderBy(tickets.position);
 
   return json(result);

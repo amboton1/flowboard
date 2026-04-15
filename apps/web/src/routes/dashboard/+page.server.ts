@@ -1,12 +1,12 @@
-import { redirect } from "@sveltejs/kit";
-import { eq, inArray } from "drizzle-orm";
-import { db } from "$lib/server/db";
-import { boards, projectMembers, projects } from "$lib/server/db/schema";
-import type { PageServerLoad } from "./$types";
+import { redirect } from '@sveltejs/kit';
+import { eq, inArray } from 'drizzle-orm';
+import { db } from '$lib/server/db';
+import { boards, projectMembers, projects } from '$lib/server/db/schema';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
   if (!locals.user) {
-    redirect(302, "/");
+    redirect(302, '/');
   }
 
   const memberRows = await db
@@ -27,12 +27,12 @@ export const load: PageServerLoad = async ({ locals, url }) => {
     allBoards = await db.query.boards.findMany({
       where: inArray(
         boards.projectId,
-        userProjects.map((p) => p.id),
+        userProjects.map((p) => p.id)
       ),
     });
   }
 
-  const selectedBoardId = url.searchParams.get("board") ?? allBoards[0]?.id;
+  const selectedBoardId = url.searchParams.get('board') ?? allBoards[0]?.id;
 
   let activeBoard = null;
   if (selectedBoardId) {

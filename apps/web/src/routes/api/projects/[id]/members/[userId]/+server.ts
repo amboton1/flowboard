@@ -9,12 +9,7 @@ export const DELETE: RequestHandler = async ({ params, locals }) => {
 
   const [member] = await db
     .delete(projectMembers)
-    .where(
-      and(
-        eq(projectMembers.projectId, params.id),
-        eq(projectMembers.userId, params.userId)
-      )
-    )
+    .where(and(eq(projectMembers.projectId, params.id), eq(projectMembers.userId, params.userId)))
     .returning({ id: projectMembers.id });
 
   if (!member) error(404, 'Member not found');

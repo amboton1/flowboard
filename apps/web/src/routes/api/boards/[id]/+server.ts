@@ -35,11 +35,7 @@ export const PATCH: RequestHandler = async ({ params, request, locals }) => {
     Object.entries(body as Record<string, unknown>).filter(([, v]) => v !== undefined)
   );
 
-  const [board] = await db
-    .update(boards)
-    .set(updates)
-    .where(eq(boards.id, params.id))
-    .returning();
+  const [board] = await db.update(boards).set(updates).where(eq(boards.id, params.id)).returning();
 
   if (!board) error(404, 'Board not found');
 

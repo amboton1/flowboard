@@ -20,7 +20,6 @@ async function seed() {
   await db.delete(schema.users);
   console.log('  ✓ Cleaned up existing data');
 
-
   const ammarId = 'p91auohqpqsl1x3stnn6c4m5';
   const aliceId = createId();
   const bobId = createId();
@@ -66,7 +65,9 @@ async function seed() {
   ]);
 
   const board1Id = createId();
-  await db.insert(schema.boards).values({ id: board1Id, name: 'Main Board', projectId: flowboardProjectId });
+  await db
+    .insert(schema.boards)
+    .values({ id: board1Id, name: 'Main Board', projectId: flowboardProjectId });
 
   const b1Todo = createId();
   const b1InProgress = createId();
@@ -177,7 +178,9 @@ async function seed() {
   ]);
 
   const board2Id = createId();
-  await db.insert(schema.boards).values({ id: board2Id, name: 'Website Launch', projectId: marketingProjectId });
+  await db
+    .insert(schema.boards)
+    .values({ id: board2Id, name: 'Website Launch', projectId: marketingProjectId });
 
   const b2Backlog = createId();
   const b2InProgress = createId();

@@ -10,7 +10,11 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   const projectId = url.searchParams.get('projectId');
 
   const result = projectId
-    ? await db.select().from(boards).where(eq(boards.projectId, projectId)).orderBy(boards.createdAt)
+    ? await db
+        .select()
+        .from(boards)
+        .where(eq(boards.projectId, projectId))
+        .orderBy(boards.createdAt)
     : await db.select().from(boards).orderBy(boards.createdAt);
 
   return json(result);
