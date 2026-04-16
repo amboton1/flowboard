@@ -1,19 +1,24 @@
 <script lang="ts">
-	interface ActiveBoard {
-		name: string;
-		columns: unknown[];
-	}
+interface ActiveBoard {
+  name: string;
+  columns: unknown[];
+}
 
-	interface Props {
-		activeBoard: ActiveBoard | null;
-		totalTickets: number;
-		userAvatarUrl: string | null | undefined;
-		userUsername: string;
-		searchQuery: string;
-	}
+interface Props {
+  activeBoard: ActiveBoard | null;
+  totalTickets: number;
+  userAvatarUrl: string | null | undefined;
+  userUsername: string;
+  searchQuery: string;
+}
 
-	let { activeBoard, totalTickets, userAvatarUrl, userUsername, searchQuery = $bindable() }: Props =
-		$props();
+let {
+  activeBoard,
+  totalTickets,
+  userAvatarUrl,
+  userUsername,
+  searchQuery = $bindable(),
+}: Props = $props();
 </script>
 
 <header

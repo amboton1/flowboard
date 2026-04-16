@@ -1,35 +1,38 @@
 <script lang="ts">
-	import TicketCard from './TicketCard.svelte';
-	import type { BoardColumn as BoardColumnType } from '$lib/types';
+import TicketCard from './TicketCard.svelte';
+import AddTicketModal from './AddTicketModal.svelte';
+import type { BoardColumn as BoardColumnType } from '$lib/types';
 
-	interface Accent {
-		border: string;
-		dot: string;
-	}
+interface Accent {
+  border: string;
+  dot: string;
+}
 
-	interface Props {
-		col: BoardColumnType;
-		accent: Accent;
-		draggingTicketId: string | null;
-		dragOverColumnId: string | null;
-		onDragStart: (e: DragEvent, ticketId: string, columnId: string) => void;
-		onDragOver: (e: DragEvent, columnId: string) => void;
-		onDragLeave: (e: DragEvent) => void;
-		onDragEnd: () => void;
-		onDrop: (e: DragEvent, columnId: string) => Promise<void>;
-	}
+interface Props {
+  col: BoardColumnType;
+  accent: Accent;
+  draggingTicketId: string | null;
+  dragOverColumnId: string | null;
+  onDragStart: (e: DragEvent, ticketId: string, columnId: string) => void;
+  onDragOver: (e: DragEvent, columnId: string) => void;
+  onDragLeave: (e: DragEvent) => void;
+  onDragEnd: () => void;
+  onDrop: (e: DragEvent, columnId: string) => Promise<void>;
+}
 
-	let {
-		col,
-		accent,
-		draggingTicketId,
-		dragOverColumnId,
-		onDragStart,
-		onDragOver,
-		onDragLeave,
-		onDragEnd,
-		onDrop,
-	}: Props = $props();
+let {
+  col,
+  accent,
+  draggingTicketId,
+  dragOverColumnId,
+  onDragStart,
+  onDragOver,
+  onDragLeave,
+  onDragEnd,
+  onDrop,
+}: Props = $props();
+
+let modalOpen = $state(false);
 </script>
 
 <div class="w-72 flex-shrink-0 flex flex-col max-h-full">
@@ -78,6 +81,7 @@
 		{/each}
 
 		<button
+			onclick={() => (modalOpen = true)}
 			class="w-full py-2.5 border-2 border-dashed border-slate-200 rounded-xl text-sm text-slate-400
 			       hover:border-indigo-300 hover:text-indigo-500 transition-colors flex items-center justify-center gap-1.5"
 		>
@@ -94,3 +98,11 @@
 		</button>
 	</div>
 </div>
+
+{#if modalOpen}
+	<AddTicketModal
+		columnId={col.id}
+		columnName={col.name}
+		onclose={() => (modalOpen = false)}
+	/>
+{/if}

@@ -1,12 +1,12 @@
 <script lang="ts">
-	interface Props {
-		icon: 'board' | 'layers';
-		title: string;
-		description: string;
-		buttonLabel?: string;
-	}
+interface Props {
+  icon: 'board' | 'layers';
+  title: string;
+  description: string;
+  buttonLabel?: string;
+}
 
-	let { icon, title, description, buttonLabel }: Props = $props();
+let { icon, title, description, buttonLabel }: Props = $props();
 </script>
 
 <div class="flex items-center justify-center h-full">

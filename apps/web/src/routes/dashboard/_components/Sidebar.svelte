@@ -1,29 +1,29 @@
 <script lang="ts">
-	interface Board {
-		id: string;
-		name: string;
-		projectId: string;
-	}
+interface Board {
+  id: string;
+  name: string;
+  projectId: string;
+}
 
-	interface Project {
-		id: string;
-		name: string;
-	}
+interface Project {
+  id: string;
+  name: string;
+}
 
-	interface User {
-		username: string;
-		email: string | null;
-		avatarUrl: string | null;
-	}
+interface User {
+  username: string;
+  email: string | null;
+  avatarUrl: string | null;
+}
 
-	interface Props {
-		user: User;
-		activeBoardId: string | null | undefined;
-		boardsByProject: Array<{ project: Project; boards: Board[] }>;
-		projectsCount: number;
-	}
+interface Props {
+  user: User;
+  activeBoardId: string | null | undefined;
+  boardsByProject: Array<{ project: Project; boards: Board[] }>;
+  projectsCount: number;
+}
 
-	let { user, activeBoardId, boardsByProject, projectsCount }: Props = $props();
+let { user, activeBoardId, boardsByProject, projectsCount }: Props = $props();
 </script>
 
 <aside class="w-60 bg-slate-900 flex flex-col flex-shrink-0">

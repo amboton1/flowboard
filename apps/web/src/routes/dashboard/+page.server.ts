@@ -1,8 +1,8 @@
-import { redirect } from '@sveltejs/kit';
-import { eq, inArray } from 'drizzle-orm';
+import { fail, redirect } from '@sveltejs/kit';
+import { eq, inArray, max } from 'drizzle-orm';
 import { db } from '$lib/server/db';
-import { boards, projectMembers, projects } from '$lib/server/db/schema';
-import type { PageServerLoad } from './$types';
+import { boards, columns, projectMembers, projects, tickets } from '$lib/server/db/schema';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
   if (!locals.user) {
@@ -58,4 +58,39 @@ export const load: PageServerLoad = async ({ locals, url }) => {
     boards: allBoards,
     activeBoard: activeBoard ?? null,
   };
+};
+
+export const actions: Actions = {
+  createTicket: async ({ request, locals }) => {
+    if (!locals.user) return fail(401, { error: 'Unauthorized' });
+
+    const data = await request.formData();
+    const title = data.get('title')?.toString().trim();
+    const description = data.get('description')?.toString().trim() || null;
+    const priority = data.get('priority')?.toString() as 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+    const columnId = data.get('columnId')?.toString();
+
+    if (!title || !columnId) return fail(400, { error: 'Title and column are required' });
+
+    const column = await db.query.columns.findFirst({ where: eq(columns.id, columnId) });
+    if (!column) return fail(404, { error: 'Column not found' });
+
+    const result = await db
+      .select({ maxPosition: max(tickets.position) })
+      .from(tickets)
+      .where(eq(tickets.columnId, columnId));
+
+    const nextPosition = (result[0]?.maxPosition ?? -1) + 1;
+
+    await db.insert(tickets).values({
+      title,
+      description,
+      priority: priority ?? 'MEDIUM',
+      status: 'TODO',
+      position: nextPosition,
+      columnId,
+    });
+
+    return { success: true };
+  },
 };

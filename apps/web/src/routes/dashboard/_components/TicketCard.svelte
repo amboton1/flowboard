@@ -1,23 +1,23 @@
 <script lang="ts">
-	import { priorityConfig } from '$lib/board-config';
-	import type { Ticket } from '$lib/types';
+import { priorityConfig } from '$lib/board-config';
+import type { Ticket } from '$lib/types';
 
-	interface Accent {
-		border: string;
-		dot: string;
-	}
+interface Accent {
+  border: string;
+  dot: string;
+}
 
-	interface Props {
-		ticket: Ticket;
-		accent: Accent;
-		isDragging: boolean;
-		ondragstart: (e: DragEvent) => void;
-		ondragend: () => void;
-	}
+interface Props {
+  ticket: Ticket;
+  accent: Accent;
+  isDragging: boolean;
+  ondragstart: (e: DragEvent) => void;
+  ondragend: () => void;
+}
 
-	let { ticket, accent, isDragging, ondragstart, ondragend }: Props = $props();
+let { ticket, accent, isDragging, ondragstart, ondragend }: Props = $props();
 
-	const priority = $derived(priorityConfig[ticket.priority]);
+const priority = $derived(priorityConfig[ticket.priority]);
 </script>
 
 <div

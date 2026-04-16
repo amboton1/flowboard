@@ -1,49 +1,49 @@
 <script lang="ts">
-	import { columnAccents } from '$lib/board-config';
-	import { createDragDrop } from '$lib/drag-drop.svelte';
-	import BoardColumn from './_components/BoardColumn.svelte';
-	import BoardHeader from './_components/BoardHeader.svelte';
-	import EmptyState from './_components/EmptyState.svelte';
-	import Sidebar from './_components/Sidebar.svelte';
+import { columnAccents } from '$lib/board-config';
+import { createDragDrop } from '$lib/drag-drop.svelte';
+import BoardColumn from './_components/BoardColumn.svelte';
+import BoardHeader from './_components/BoardHeader.svelte';
+import EmptyState from './_components/EmptyState.svelte';
+import Sidebar from './_components/Sidebar.svelte';
 
-	let { data } = $props();
-	let searchQuery = $state('');
-	let boardColumns = $state(data.activeBoard?.columns ?? []);
+let { data } = $props();
+let searchQuery = $state('');
+let boardColumns = $state(data.activeBoard?.columns ?? []);
 
-	$effect(() => {
-		boardColumns = data.activeBoard?.columns ?? [];
-	});
+$effect(() => {
+  boardColumns = data.activeBoard?.columns ?? [];
+});
 
-	const drag = createDragDrop(
-		() => boardColumns,
-		(cols) => {
-			boardColumns = cols as typeof boardColumns;
-		},
-		() => {
-			boardColumns = data.activeBoard?.columns ?? [];
-		}
-	);
+const drag = createDragDrop(
+  () => boardColumns,
+  (cols) => {
+    boardColumns = cols as typeof boardColumns;
+  },
+  () => {
+    boardColumns = data.activeBoard?.columns ?? [];
+  }
+);
 
-	const filteredColumns = $derived(() => {
-		return boardColumns.map((col) => ({
-			...col,
-			tickets: col.tickets.filter(
-				(ticket) =>
-					!searchQuery ||
-					ticket.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-					ticket.description?.toLowerCase().includes(searchQuery.toLowerCase())
-			),
-		}));
-	});
+const filteredColumns = $derived(() => {
+  return boardColumns.map((col) => ({
+    ...col,
+    tickets: col.tickets.filter(
+      (ticket) =>
+        !searchQuery ||
+        ticket.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        ticket.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+  }));
+});
 
-	const boardsByProject = $derived(
-		data.projects.map((project) => ({
-			project,
-			boards: data.boards.filter((b) => b.projectId === project.id),
-		}))
-	);
+const boardsByProject = $derived(
+  data.projects.map((project) => ({
+    project,
+    boards: data.boards.filter((b) => b.projectId === project.id),
+  }))
+);
 
-	const totalTickets = $derived(boardColumns.reduce((sum, col) => sum + col.tickets.length, 0) ?? 0);
+const totalTickets = $derived(boardColumns.reduce((sum, col) => sum + col.tickets.length, 0) ?? 0);
 </script>
 
 <div class="flex h-screen bg-slate-50 overflow-hidden font-sans">
